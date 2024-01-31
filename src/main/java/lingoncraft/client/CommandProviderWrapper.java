@@ -1,5 +1,6 @@
 package lingoncraft.client;
 
+import baritone.api.BaritoneAPI;
 import com.mojang.logging.LogUtils;
 import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -25,7 +26,8 @@ public class CommandProviderWrapper {
                 """)
         private void baritoneRaw(String command) {
             LOGGER.info("Executing command: " + command);
-            baritone.api.BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(command);
+
+            BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(command);
         }
 
     }

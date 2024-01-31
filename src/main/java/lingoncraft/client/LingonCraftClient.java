@@ -1,5 +1,6 @@
 package lingoncraft.client;
 
+import baritone.api.BaritoneAPI;
 import dev.langchain4j.chain.ConversationalRetrievalChain;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
@@ -38,12 +39,14 @@ public class LingonCraftClient implements ClientModInitializer {
         ServerMessageEvents.CHAT_MESSAGE.register((event ,player, parameters) -> {
 
             System.out.println("Received message from server: " + event.getContent().getString());
-            //bariton move 10 10
+
 
             System.out.println(assistant.chat(event.getContent().getString()));
         });
 
 
+
+        BaritoneAPI.getSettings().chatControl.value = false;
 
     }
 
