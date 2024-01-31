@@ -36,6 +36,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "baritone-api-fabric:baritone-api-fabric:1.10.2-2-g3744b416"
     modImplementation "dev.babbaj:nether-pathfinder:1.4.1"
+    modImplementation "dev.langchain4j:langchain4j-open-ai:0.26.1"
+    modImplementation "dev.langchain4j:langchain4j:0.26.1"
 }
 
 processResources {
