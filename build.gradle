@@ -38,6 +38,20 @@ dependencies {
     modImplementation "dev.babbaj:nether-pathfinder:1.4.1"
     modImplementation "dev.langchain4j:langchain4j-open-ai:0.26.1"
     modImplementation "dev.langchain4j:langchain4j:0.26.1"
+
+    //         <dependency>
+    //            <groupId>dev.langchain4j</groupId>
+    //            <artifactId>langchain4j-embeddings</artifactId>
+    //            <version>${project.version}</version>
+    //        </dependency>
+    //
+    //        <dependency>
+    //            <groupId>dev.langchain4j</groupId>
+    //            <artifactId>langchain4j-embeddings-all-minilm-l6-v2</artifactId>
+    //            <version>${project.version}</version>
+    //        </dependency>
+    modImplementation("dev.langchain4j:langchain4j-embeddings:0.26.1")
+    modImplementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2:0.26.1")
 }
 
 processResources {

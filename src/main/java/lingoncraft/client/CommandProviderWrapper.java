@@ -20,10 +20,14 @@ public class CommandProviderWrapper {
             baritone.api.BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("goto " + x + " " + y + (z > 0 ? " " + z : ""));
         }
 
-        @Tool("Moves the user to provided coordinates")
-        public void move_To_Coordinates(int x, int y) {
-            move_To_Coordinates(x, y, -1);
+        @Tool("""
+               Baritone command
+                """)
+        private void baritoneRaw(String command) {
+            LOGGER.info("Executing command: " + command);
+            baritone.api.BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(command);
         }
+
     }
 
 
