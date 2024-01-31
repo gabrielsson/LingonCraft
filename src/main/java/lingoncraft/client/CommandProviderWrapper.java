@@ -13,19 +13,10 @@ public class CommandProviderWrapper {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     static class GotoChatCommand {
-
-        private void move_To_Coordinates(int x, int y, int z) {
-            LOGGER.info("Moving to coordinates: " + x + " " + y + " " + z);
-
-
-            baritone.api.BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("goto " + x + " " + y + (z > 0 ? " " + z : ""));
-        }
-
-        @Tool("""
-               Baritone command
-                """)
+        @Tool("execute baritone commands like `command arg1 arg2`")
         private void baritoneRaw(String command) {
             LOGGER.info("Executing command: " + command);
+
 
             BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute(command);
         }

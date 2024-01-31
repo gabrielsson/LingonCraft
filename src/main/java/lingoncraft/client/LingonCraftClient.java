@@ -22,6 +22,10 @@ import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
+import net.minecraft.text.Text;
+
+import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 import static dev.langchain4j.model.openai.OpenAiModelName.GPT_3_5_TURBO;
@@ -40,8 +44,13 @@ public class LingonCraftClient implements ClientModInitializer {
 
             System.out.println("Received message from server: " + event.getContent().getString());
 
+            CompletableFuture<String> response = CompletableFuture.supplyAsync(() -> assistant.chat(event.getContent().getString()));
+            //print the result on completion
+            response.thenAccept((result) -> {
+                Arrays.stream(result.split("\n"))
+                        .forEach(m -> player.sendMessage(Text.of(m), false));
 
-            System.out.println(assistant.chat(event.getContent().getString()));
+            });
         });
 
 
