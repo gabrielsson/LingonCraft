@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "lingonfabrik",
+  "version": "${version}",
+  "name": "LingonFabrik",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/mgabrielsson/LingonFabrik"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/lingonfabrik/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "lingonfabrik.lingonfabrik.client.LingonCraftClient"
+    ],
+    "main": [
+      "lingonfabrik.lingonfabrik.LingonFabrik"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
