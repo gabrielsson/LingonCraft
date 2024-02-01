@@ -1,9 +1,7 @@
 package lingoncraft.client;
 
 import baritone.api.BaritoneAPI;
-import dev.langchain4j.chain.ConversationalRetrievalChain;
 import dev.langchain4j.data.document.Document;
-import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -15,7 +13,6 @@ import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
-import dev.langchain4j.retriever.EmbeddingStoreRetriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
@@ -27,7 +24,6 @@ import net.minecraft.text.Text;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
-import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 import static dev.langchain4j.model.openai.OpenAiModelName.GPT_3_5_TURBO;
 
 public class LingonCraftClient implements ClientModInitializer {
@@ -40,20 +36,15 @@ public class LingonCraftClient implements ClientModInitializer {
 
         assistant = createBarritonAssistant();
 
-        ServerMessageEvents.CHAT_MESSAGE.register((event ,player, parameters) -> {
-
+        ServerMessageEvents.CHAT_MESSAGE.register((event, player, parameters) -> {
             System.out.println("Received message from server: " + event.getContent().getString());
 
             CompletableFuture<String> response = CompletableFuture.supplyAsync(() -> assistant.chat(event.getContent().getString()));
-            //print the result on completion
             response.thenAccept((result) -> {
                 Arrays.stream(result.split("\n"))
                         .forEach(m -> player.sendMessage(Text.of(m), false));
-
             });
         });
-
-
 
         BaritoneAPI.getSettings().chatControl.value = false;
 
