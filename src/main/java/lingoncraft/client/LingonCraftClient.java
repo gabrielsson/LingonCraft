@@ -14,6 +14,7 @@ import dev.langchain4j.rag.RetrievalAugmentor;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
@@ -51,11 +52,9 @@ public class LingonCraftClient implements ClientModInitializer {
     }
 
     private static Assistant createBarritonAssistant() {
-
-        // Check _01_Naive_RAG if you need more details on what is going on here
-
         ChatLanguageModel chatModel = OpenAiChatModel.builder()
                 .apiKey(System.getenv("OPENAI_API_KEY"))
+                .maxTokens(30)
                 .modelName(GPT_3_5_TURBO)
                 .build();
 
@@ -123,6 +122,11 @@ public class LingonCraftClient implements ClientModInitializer {
                 .build();
     }
 
+    @SystemMessage({
+            "You are an expert baritone prompt creator.",
+            "You will give very short answers. You will not mention baritone in any way.",
+            "Mostly giving back the command that sent to baritone api is enough."
+    })
     interface Assistant {
 
         String chat(String userMessage);
