@@ -17,7 +17,7 @@ object CommandProviderWrapper {
   }
 
 
-  object GeneratedCommands {
+  class GeneratedCommands {
     def executeCommand(command: String): Unit = {
       println("Executing command: " + command)
       BaritoneAPI.getProvider.getPrimaryBaritone.getCommandManager.execute(command)
@@ -107,8 +107,7 @@ object CommandProviderWrapper {
     }
 
     @Tool(Array("""tunnel to dig and make a tunnel, 1x2. It will only deviate from the straight line if necessary such as to avoid lava. For a dumber tunnel that is really just cleararea, you can tunnel 3 2 100, to clear an area 3 high, 2 wide, and 100 deep."""))
-    def tunnel(dimensions: (Int, Int, Int)): Unit = {
-      val (height, width, depth) = dimensions
+    def tunnel(height: Int, width: Int, depth: Int): Unit = {
       executeCommand(s"tunnel $height $width $depth")
     }
 
