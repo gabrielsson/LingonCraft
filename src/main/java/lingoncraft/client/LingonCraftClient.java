@@ -29,6 +29,7 @@ import static dev.langchain4j.model.openai.OpenAiModelName.GPT_3_5_TURBO;
 
 public class LingonCraftClient implements ClientModInitializer {
     private Assistant assistant;
+
     /**
      * Runs the mod initializer on the client environment.
      */
@@ -42,12 +43,21 @@ public class LingonCraftClient implements ClientModInitializer {
 
             CompletableFuture<String> response = CompletableFuture.supplyAsync(() -> assistant.chat(event.getContent().getString()));
             response.thenAccept((result) -> {
-                Arrays.stream(result.split("\n"))
-                        .forEach(m -> player.sendMessage(Text.of(m), false));
-            });
+                        Arrays.stream(result.split("\n"))
+                                .forEach(m -> player.sendMessage(Text.of(m), false));
+                    })
+                    .exceptionally((throwable) -> {
+                        throwable.printStackTrace();
+                        Arrays.stream(throwable.getMessage().split("\n"))
+                                .forEach(m -> player.sendMessage(Text.of(m), false));
+                        return null;
+                    });
         });
 
         BaritoneAPI.getSettings().chatControl.value = false;
+        BaritoneAPI.getSettings().freeLook.value = false;
+        BaritoneAPI.getSettings().smoothLook.value = true;
+
 
     }
 
@@ -59,8 +69,6 @@ public class LingonCraftClient implements ClientModInitializer {
                 .build();
 
         EmbeddingModel embeddingModel = new AllMiniLmL6V2EmbeddingModel();
-
-
         EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
 
         EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
@@ -124,8 +132,11 @@ public class LingonCraftClient implements ClientModInitializer {
 
     @SystemMessage({
             "You are an expert baritone prompt creator.",
+            "Before executing commands, you MUST always check:",
+            "the player position.",
+            "Keep track of the old positions of the player",
             "You will give very short answers. You will not mention baritone in any way.",
-            "Mostly giving back the command that sent to baritone api is enough."
+            "Mostly giving back the command that sent to baritone api is enough.",
     })
     interface Assistant {
 
