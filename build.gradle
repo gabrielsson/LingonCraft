@@ -1,7 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.5-SNAPSHOT'
     id 'maven-publish'
-    id 'scala'
 }
 
 version = project.mod_version
@@ -32,8 +31,6 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    implementation 'org.scala-lang:scala-library:2.13.12'
-
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "baritone-api-fabric:baritone-api-fabric:1.10.2-2-g3744b416"
@@ -54,17 +51,6 @@ dependencies {
     //        </dependency>
     modImplementation("dev.langchain4j:langchain4j-embeddings:0.26.1")
     modImplementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2:0.26.1")
-}
-
-sourceSets {
-    main {
-        scala {
-            srcDirs = ['src/main/scala', 'src/main/java']
-        }
-        java {
-            srcDirs = []
-        }
-    }
 }
 
 processResources {

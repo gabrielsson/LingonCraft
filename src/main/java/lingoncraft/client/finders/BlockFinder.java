@@ -1,4 +1,4 @@
-package lingoncraft.client;
+package lingoncraft.client.finders;
 
 import baritone.api.BaritoneAPI;
 import com.mojang.logging.LogUtils;

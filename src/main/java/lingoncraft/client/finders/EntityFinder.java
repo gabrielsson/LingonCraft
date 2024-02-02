@@ -1,4 +1,4 @@
-package lingoncraft.client;
+package lingoncraft.client.finders;
 
 import baritone.api.BaritoneAPI;
 import com.mojang.logging.LogUtils;
@@ -6,119 +6,119 @@ import dev.langchain4j.agent.tool.Tool;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.util.TypeFilter;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import org.slf4j.Logger;
 
 import java.util.Optional;
 
 public class EntityFinder {
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private static final Logger log = LogUtils.getLogger();
 
-
-    @Tool({"Get x z of nearest cow"})
-    public EntityPosition findCow() {
-        LOGGER.info("find cow");
+    @Tool
+    public BlockPos findCow() {
+        log.info("find cow");
 
         return findAnimal(CowEntity.class);
     }
 
     @Tool
-    public EntityPosition findHorse() {
-        LOGGER.info("find horse");
+    public BlockPos findHorse() {
+        log.info("find horse");
         return findAnimal(HorseEntity.class);
     }
 
     @Tool
-    public EntityPosition findFrog() {
-        LOGGER.info("find frog");
+    public BlockPos findFrog() {
+        log.info("find frog");
         return findAnimal(FrogEntity.class);
     }
 
     @Tool
-    public EntityPosition findGoat() {
-        LOGGER.info("find goat");
+    public BlockPos findGoat() {
+        log.info("find goat");
         return findAnimal(GoatEntity.class);
     }
 
     //camel
     @Tool
-    public EntityPosition findCamel() {
-        LOGGER.info("find camel");
+    public BlockPos findCamel() {
+        log.info("find camel");
         return findAnimal(CamelEntity.class);
     }
 
     //chicken
     @Tool
-    public EntityPosition findChicken() {
-        LOGGER.info("find chicken");
+    public BlockPos findChicken() {
+        log.info("find chicken");
         return findAnimal(ChickenEntity.class);
     }
 
     //Donkey
     @Tool
-    public EntityPosition findDonkey() {
-        LOGGER.info("find donkey");
+    public BlockPos findDonkey() {
+        log.info("find donkey");
         return findAnimal(DonkeyEntity.class);
     }
 
     //Cat
     @Tool
-    public EntityPosition findCat() {
-        LOGGER.info("find cat");
+    public BlockPos findCat() {
+        log.info("find cat");
         return findAnimal(CatEntity.class);
     }
 
     //Fox
     @Tool
-    public EntityPosition findFox() {
-        LOGGER.info("find fox");
+    public BlockPos findFox() {
+        log.info("find fox");
         return findAnimal(FoxEntity.class);
     }
 
     //Llama
     @Tool
-    public EntityPosition findLlama() {
-        LOGGER.info("find llama");
+    public BlockPos findLlama() {
+        log.info("find llama");
         return findAnimal(LlamaEntity.class);
     }
 
     //Mule
     @Tool
-    public EntityPosition findMule() {
-        LOGGER.info("find mule");
+    public BlockPos findMule() {
+        log.info("find mule");
         return findAnimal(MuleEntity.class);
     }
 
     //Ocelot
     @Tool
-    public EntityPosition findOcelot() {
-        LOGGER.info("find ocelot");
+    public BlockPos findOcelot() {
+        log.info("find ocelot");
         return findAnimal(OcelotEntity.class);
     }
 
     //Panda
     @Tool
-    public EntityPosition findPanda() {
-        LOGGER.info("find panda");
+    public BlockPos findPanda() {
+        log.info("find panda");
         return findAnimal(PandaEntity.class);
     }
 
     //Parrot
     @Tool
-    public EntityPosition findParrot() {
-        LOGGER.info("find parrot");
+    public BlockPos findParrot() {
+        log.info("find parrot");
         return findAnimal(ParrotEntity.class);
     }
 
     //Pig
     @Tool
-    public EntityPosition findPig() {
-        LOGGER.info("find pig");
+    public BlockPos findPig() {
+        log.info("find pig");
         return findAnimal(PigEntity.class);
     }
 
-    private  EntityPosition findAnimal(Class<? extends Entity> clazz) {
-        LOGGER.info("findAnimal for " + clazz.getName());
+    private BlockPos findAnimal(Class<? extends Entity> clazz) {
+        log.info("findAnimal for " + clazz.getName());
 
         var player = BaritoneAPI.getProvider().getPrimaryBaritone().getPlayerContext().player();
 
@@ -129,11 +129,11 @@ public class EntityFinder {
         var entities = player.getWorld()
                 .getEntitiesByType(filter, box, entity -> true);
 
-        Optional<EntityPosition> resultOpt = entities.stream()
-                .map(entity -> new EntityPosition(entity.getX(), entity.getZ()))
+        Optional<BlockPos> resultOpt = entities.stream()
+                .map(Entity::getBlockPos)
                 .findFirst();
 
-        LOGGER.info("Found animal: " + resultOpt);
+        log.info("Found animal: " + resultOpt);
         return resultOpt.orElse(null);
     }
 }
