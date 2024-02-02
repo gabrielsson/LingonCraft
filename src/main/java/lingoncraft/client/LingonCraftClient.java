@@ -1,6 +1,7 @@
 package lingoncraft.client;
 
 import baritone.api.BaritoneAPI;
+import dev.langchain4j.agent.tool.ToolExecutionRequestUtil;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
@@ -50,6 +51,7 @@ public class LingonCraftClient implements ClientModInitializer {
                         throwable.printStackTrace();
                         Arrays.stream(throwable.getMessage().split("\n"))
                                 .forEach(m -> player.sendMessage(Text.of(m), false));
+                        assistant = createBarritonAssistant();
                         return null;
                     });
         });
@@ -64,7 +66,7 @@ public class LingonCraftClient implements ClientModInitializer {
     private static Assistant createBarritonAssistant() {
         ChatLanguageModel chatModel = OpenAiChatModel.builder()
                 .apiKey(System.getenv("OPENAI_API_KEY"))
-                .maxTokens(30)
+                .maxTokens(300)
                 .modelName(GPT_3_5_TURBO)
                 .build();
 
@@ -124,7 +126,7 @@ public class LingonCraftClient implements ClientModInitializer {
 
         return AiServices.builder(Assistant.class)
                 .chatLanguageModel(chatModel)
-                .tools(new CommandProviderWrapper.GotoChatCommand())
+                .tools(new CommandProviderWrapper.GotoChatCommand(), new EntityFinder())
                 .retrievalAugmentor(retrievalAugmentor)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
