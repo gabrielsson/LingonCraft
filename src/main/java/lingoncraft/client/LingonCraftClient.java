@@ -126,7 +126,7 @@ public class LingonCraftClient implements ClientModInitializer {
 
         return AiServices.builder(Assistant.class)
                 .chatLanguageModel(chatModel)
-                .tools(new CommandProviderWrapper.GotoChatCommand(), new EntityFinder())
+                .tools(new CommandProviderWrapper.GotoChatCommand(), new PlayerFinder(), new BlockFinder(), new EntityFinder())
                 .retrievalAugmentor(retrievalAugmentor)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();

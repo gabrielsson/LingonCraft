@@ -1,10 +1,15 @@
 package lingoncraft.client
 
 import baritone.api.BaritoneAPI
-import baritone.api.pathing.goals.GoalXZ
+import baritone.api.pathing.goals.{GoalBlock, GoalXZ}
 import com.mojang.logging.LogUtils
 import dev.langchain4j.agent.tool.Tool
+<<<<<<< Updated upstream
 case class EntityPosition(x: Double, z: Double)
+||||||| Stash base
+=======
+import net.minecraft.util.math.BlockPos
+>>>>>>> Stashed changes
 
 object CommandProviderWrapper {
   private val LOGGER = LogUtils.getLogger
@@ -25,14 +30,13 @@ object CommandProviderWrapper {
     }
 
     @Tool(
-      Array("`Walk to `x z` to start moving the player to a specified position")
+      Array("`Walk to `x z` to start moving the player to a specified position without caring about the vertical position")
     )
     def baritoneWalk(x: Double, z: Double): Unit = {
       LOGGER.info(s"set goal: $x, $z")
       BaritoneAPI.getProvider.getPrimaryBaritone.getCustomGoalProcess
         .setGoalAndPath(new GoalXZ(x.toInt, z.toInt));
     }
-
 
     @Tool(Array("Get the position of  the player"))
     def whereAmI(): EntityPosition = {
@@ -43,6 +47,16 @@ object CommandProviderWrapper {
       val z = player.lastRenderZ
       EntityPosition(x, z)
     }
+
+
+    @Tool(
+      Array("`Walk to the surface")
+    )
+    def baritoneSurface(): Unit = {
+      LOGGER.info(s"surface")
+      BaritoneAPI.getProvider.getPrimaryBaritone.getCommandManager.execute("surface");
+    }
+
   }
 
 }
