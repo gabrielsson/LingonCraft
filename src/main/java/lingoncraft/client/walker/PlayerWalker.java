@@ -1,7 +1,7 @@
 package lingoncraft.client.walker;
 
 import baritone.api.BaritoneAPI;
-import baritone.api.pathing.goals.GoalBlock;
+import baritone.api.pathing.goals.GoalNear;
 import dev.langchain4j.agent.tool.Tool;
 import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
@@ -14,6 +14,6 @@ public class PlayerWalker {
     public void walkToBlockPos(int x, int y, int z) {
         var blockPos = new BlockPos(x, y, z);
         log.info("walkToBlockPos: %s".formatted(blockPos));
-        BaritoneAPI.getProvider().getPrimaryBaritone().getCustomGoalProcess().setGoalAndPath(new GoalBlock(blockPos));
+        BaritoneAPI.getProvider().getPrimaryBaritone().getCustomGoalProcess().setGoalAndPath(new GoalNear(blockPos, 2));
     }
 }
